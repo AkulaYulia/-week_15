@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Температура в разных городах</h1>
+    <button onclick="inputTemperatures()">Введите температуры</button>
+
+    <h2>Список городов и температур:</h2>
+    <ul id="cityList"></ul>
+
+    <div id="results"></div>
+
+    <script>
+      const cities = [
+        "Москва",
+        "Санкт-Петербург",
+        "Новосибирск",
+        "Екатеринбург",
+        "Казань",
+      ];
+      const temperatures = new Array(cities.length).fill(0);
+
+      function inputTemperatures() {
+        for (let i = 0; i < cities.length; i++) {
+          const temp = prompt(`Введите температуру для ${cities[i]}:`, 0);
+          temperatures[i] = parseFloat(temp) || 0;
+        }
+        updateCityList();
+        calculateAndDisplayResults();
+      }
+
+      function updateCityList() {
+        const cityList = document.getElementById("cityList");
+        cityList.innerHTML = "";
+        cities.forEach((city, index) => {
+          const li = document.createElement("li");
+          li.textContent = `${city}: ${temperatures[index]} °C`;
+          cityList.appendChild(li);
+        });
+      }
+      function calculateAndDisplayResults() {
+        let maxTemp = -Infinity;
+        let minTemp = Infinity;
+        for (let temp of temperatures) {
+          if (temp > maxTemp) maxTemp = temp;
+          if (temp < minTemp) minTemp = temp;
+        }
+
+        document.getElementById("results").innerHTML = `
+                <p>Максимальная температура: ${maxTemp} °C</p>
+                <p>Минимальная температура: ${minTemp} °C</p>
+            `;
+      }
+    </script>
+  </body>
+</html>
